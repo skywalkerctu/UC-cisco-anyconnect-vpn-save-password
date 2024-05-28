@@ -1,0 +1,7 @@
+; replace with your 6+2 and password
+username=YOUR 6+2
+password=YOUR PASSWORD
+; controls the delay between actions
+; if you're having issues with the inputs, set a longer delay
+; options:{SHORT, MEDIUM, LONG}
+delay=LONG

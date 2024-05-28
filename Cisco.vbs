@@ -1,12 +1,61 @@
-Dim PASSWORD
+Set config = CreateObject("Scripting.Dictionary")
 
-PASSWORD = "SET_YOUR_PASSWORD_HERE"
+configFilePath = "config.txt"
+
+Set fso = CreateObject("Scripting.FileSystemObject")
+
+If fso.FileExists(configFilePath) Then
+    Set file = fso.OpenTextFile(configFilePath, 1)
+    
+    Do Until file.AtEndOfStream
+        line = Trim(file.ReadLine)
+        If line <> "" And Left(line, 1) <> ";" Then
+            arr = Split(line, "=")
+            If UBound(arr) = 1 Then
+                key = Trim(arr(0))
+                value = Trim(arr(1))
+                config(key) = value
+            End If
+        End If
+    Loop
+    
+    file.Close
+Else
+    MsgBox "Configuration file not found: " & configFilePath
+End If
+
+' Check if username is set
+If config("username") = "YOUR 6+2" Then
+  MsgBox "Username is not set! Please change it in " & configFilePath
+  WScript.Quit
+End If
+' Check if password is set
+If config("password") = "YOUR PASSWORD" Then
+  MsgBox "Password is not set! Please change it in " & configFilePath
+  WScript.Quit
+End If
+
+Dim delays(2)
+
+If config("delay") = "SHORT" Then
+  delays(0) = 1000
+  delays(1) = 1000
+  delays(2) = 2000
+ElseIf config("delay") = "MEDIUM" Then
+  delays(0) = 1500
+  delays(1) = 2000
+  delays(2) = 4000
+Else
+  delays(0) = 2000
+  delays(1) = 3000
+  delays(2) = 6000
+End If
 
 Set WshShell = WScript.CreateObject("WScript.Shell")
 
 WshShell.Run """%PROGRAMFILES(x86)%\Cisco\Cisco AnyConnect Secure Mobility Client\vpnui.exe"""
 
-WScript.Sleep 2000
+WScript.Sleep delays(0)
 
 WshShell.AppActivate "Cisco AnyConnect Secure Mobility Client"
 
@@ -14,25 +63,14 @@ WshShell.SendKeys "{TAB}"
 WshShell.SendKeys "{TAB}"
 WshShell.SendKeys "{ENTER}"
 
-WScript.Sleep 3000
+WScript.Sleep delays(1)
 WshShell.SendKeys "{TAB}"
 WshShell.SendKeys "{ENTER}"
 
-WScript.Sleep 6000
-WshShell.SendKeys PASSWORD
+WScript.Sleep delays(2)
+WshShell.SendKeys config("username")
+WshShell.SendKeys "{TAB}"
+WScript.Sleep delays(0)
+WshShell.SendKeys config("password")
 WshShell.SendKeys "{ENTER}"
 WScript.Sleep 500
-
-Function ClipBoard(input)
-  If IsNull(input) Then
-    ClipBoard = CreateObject("HTMLFile").parentWindow.clipboardData.getData("Text")
-    If IsNull(ClipBoard) Then ClipBoard = ""
-  Else
-    CreateObject("WScript.Shell").Run _
-      "mshta.exe javascript:eval(""document.parentWindow.clipboardData.setData('text','" _
-      & Replace(Replace(Replace(input, "'", "\\u0027"), """","\\u0022"),Chr(13),"\\r\\n") & "');window.close()"")", _
-      0,True
-  End If
-End Function
-
-ClipBoard(PASSWORD)
