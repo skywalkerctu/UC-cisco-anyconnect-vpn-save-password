@@ -4,7 +4,10 @@ This simple script will save you the hassle of constantly typing your password.
 
 ## Instruction
 
-1. Copy file Cisco.vbs to your computer
-2. Edit it and replace SET_YOUR_PASSWORD_HERE with your password
+1. Copy file Cisco.vbs and config.txt to your computer (make sure they're in the same directory)
+2. Edit config.txt and replace with your username(6+2) and password
+3. (Optional) adjust the delay to suit your computer
 
 Enjoy 😉
+
+#### Credit to @paveleremin for creating the original script
