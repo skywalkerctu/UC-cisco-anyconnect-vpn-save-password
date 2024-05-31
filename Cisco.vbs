@@ -39,7 +39,7 @@ Dim delays(2)
 
 If config("delay") = "SHORT" Then
   delays(0) = 1000
-  delays(1) = 1000
+  delays(1) = 1500
   delays(2) = 2000
 ElseIf config("delay") = "MEDIUM" Then
   delays(0) = 1500
