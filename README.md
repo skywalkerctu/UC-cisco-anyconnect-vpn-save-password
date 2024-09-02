@@ -11,4 +11,4 @@ This simple script will save you the hassle of constantly typing your password.
 
 Enjoy 😉
 
-#### Credit to @paveleremin for creating the original script
+#### Credit to [paveleremin](https://github.com/paveleremin/cisco-anyconnect-vpn-save-password) for creating the original script
